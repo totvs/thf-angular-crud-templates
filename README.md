@@ -14,8 +14,11 @@ THF2 Suported version: `1.8.0`
 * The plugin will generate a new module with the CRUD self-contained.
 4. Register the module to the application module `src/app/app.module.ts`;
 5. Register the i18n files to the [THF2 i18n Module](https://thf.totvs.com.br/documentation/thf-i18n):
+
     ![i18n sample](https://github.com/totvs/thf-angular-crud-templates/raw/master/assets/images/i18n.png)
+    
 6. Add the [dynamic route to module as lazy load](https://angular.io/guide/lazy-loading-ngmodules):
+    
     ![module route to lazy load](https://github.com/totvs/thf-angular-crud-templates/raw/master/assets/images/route.png)
 
 ## Notes
