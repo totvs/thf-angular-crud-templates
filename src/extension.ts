@@ -14,7 +14,7 @@ export function activate(context: vscode.ExtensionContext) {
         validateInput: validateInputValue
     };
 
-    let thf2CRUDSimple = vscode.commands.registerCommand('extension.thf2CRUDSimple', () => {
+    let thfCRUDSimple = vscode.commands.registerCommand('extension.thfCRUDSimple', () => {
         showInput(componentNameInput).concatMap(value => {
             if (!value) return Observable.empty();
             return CRUDSimple.createComponent(value);
@@ -38,7 +38,7 @@ export function activate(context: vscode.ExtensionContext) {
         if (err.message) vscode.window.showErrorMessage(err.message);
     };
 
-    context.subscriptions.push(thf2CRUDSimple);
+    context.subscriptions.push(thfCRUDSimple);
 }
 
 export function deactivate() { }

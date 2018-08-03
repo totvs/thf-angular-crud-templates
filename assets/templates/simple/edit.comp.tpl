@@ -3,13 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 
-import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs';
 
 import { ThfBreadcrumb } from '@totvs/thf-ui/components/thf-breadcrumb';
 import { ThfModalAction } from '@totvs/thf-ui/components/thf-modal';
 import { ThfModalComponent } from '@totvs/thf-ui/components/thf-modal/thf-modal.component';
 import { ThfPageAction } from '@totvs/thf-ui/components/thf-page';
-import { ThfI18nService } from '@totvs/thf-ui/services/thf-i18n';
+import { ThfI18nService, ThfI18nPipe } from '@totvs/thf-ui/services/thf-i18n';
 import { ThfNotificationService } from '@totvs/thf-ui/services/thf-notification/thf-notification.service';
 
 import { I{pascalCase}, {pascalCase} } from '../../shared/model/{paramCase}.model';
@@ -21,8 +21,6 @@ import { {pascalCase}Service } from '../../shared/services/{paramCase}.service';
     styleUrls: ['./{paramCase}.edit.component.css']
 })
 export class {pascalCase}EditComponent implements OnInit, OnDestroy {
-
-    private literalsSubscription$: Subscription;
 
     @ViewChild('modalDelete') modalDelete: ThfModalComponent;
     @ViewChild('modalCancel') modalCancel: ThfModalComponent;
@@ -48,20 +46,21 @@ export class {pascalCase}EditComponent implements OnInit, OnDestroy {
         private router: Router,
         private location: Location,
         private activatedRoute: ActivatedRoute,
+        private thfI18nPipe: ThfI18nPipe,
         private thfI18nService: ThfI18nService,
         private thfNotification: ThfNotificationService,
         private service: {pascalCase}Service
     ) { }
 
     ngOnInit(): void {
-        this.literalsSubscription$ = this.thfI18nService
-            .getLiterals({ context: '{camelCase}' })
-            .subscribe(literals => {
-                this.literals = literals;
-                this.setupComponents();
-            });
-
-        this.get();
+        Observable.forkJoin(
+            this.thfI18nService.getLiterals(),
+            this.thfI18nService.getLiterals({ context: '{camelCase}' })
+        ).subscribe(literals => {
+            literals.map(item => Object.assign(this.literals, item));
+            this.setupComponents();
+            this.get();
+        });
     }
 
     private checkInteractionOnForm(form: NgForm): void {
@@ -114,7 +113,11 @@ export class {pascalCase}EditComponent implements OnInit, OnDestroy {
     private delete() {
         this.service.delete(this.{camelCase}.id).subscribe(data => {
             this.router.navigate(['/{camelCase}']);
-            this.thfNotification.success(this.literals['excluded{pascalCase}Message']);
+            this.thfNotification.success(
+                this.thfI18nPipe.transform(
+                    this.literals['excluded{pascalCase}Message'], [this.{camelCase}.name]
+                )
+            );
         });
     }
 
@@ -136,7 +139,7 @@ export class {pascalCase}EditComponent implements OnInit, OnDestroy {
         this.editActions = [
             { label: this.literals['save'], action: this.update.bind(this, this.{camelCase}) },
             { label: this.literals['remove'], action: () => this.modalDelete.open() },
-            { label: this.literals['return'], action: this.checkInteractionOnForm.bind(this, this.form{pascalCase}) },
+            { label: this.literals['return'], action: this.checkInteractionOnForm.bind(this, this.form{pascalCase}) }
         ];
 
         this.editBreadcrumb = {
@@ -163,7 +166,5 @@ export class {pascalCase}EditComponent implements OnInit, OnDestroy {
         };
     }
 
-    ngOnDestroy(): void {
-        this.literalsSubscription$.unsubscribe();
-    }
+    ngOnDestroy(): void {}
 }

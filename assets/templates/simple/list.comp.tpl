@@ -8,9 +8,10 @@ import { ThfModalAction } from '@totvs/thf-ui/components/thf-modal';
 import { ThfModalComponent } from '@totvs/thf-ui/components/thf-modal/thf-modal.component';
 import { ThfPageAction, ThfPageFilter } from '@totvs/thf-ui/components/thf-page';
 import { ThfTableColumn } from '@totvs/thf-ui/components/thf-table';
-import { ThfI18nService } from '@totvs/thf-ui/services/thf-i18n';
+import { ThfI18nService, ThfI18nPipe } from '@totvs/thf-ui/services/thf-i18n';
 import { ThfNotificationService } from '@totvs/thf-ui/services/thf-notification/thf-notification.service';
 
+import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs/Subscription';
 
 import { TotvsResponse } from '../shared/interfaces/totvs-response.interface';
@@ -28,7 +29,6 @@ export class {pascalCase}ListComponent implements OnInit, OnDestroy {
     @ViewChild('modalDelete') modalDelete: ThfModalComponent;
 
     private itemsSubscription$: Subscription;
-    private literalsSubscription$: Subscription;
 
     private disclaimers: Array<ThfDisclaimer> = [];
 
@@ -42,38 +42,37 @@ export class {pascalCase}ListComponent implements OnInit, OnDestroy {
     disclaimerGroup: ThfDisclaimerGroup;
     filterSettings: ThfPageFilter;
 
-    items: Array<I{pascalCase}>;
+    items: Array<ITicketStatus> = new Array<ITicketStatus>();
     columns: Array<ThfTableColumn>;
 
-    hasNext: boolean;
+    hasNext: boolean = false;
     pageSize: number = 20;
-    currentPage: number;
+    currentPage: number = 0;
 
     isLoading = true;
-    searchValue: string;
+    quickSearchValue: string = '';
 
     literals: any = {};
 
     constructor(
         private service: {pascalCase}Service,
+        private thfI18nPipe: ThfI18nPipe,
         private thfI18nService: ThfI18nService,
         private thfNotification: ThfNotificationService,
         private router: Router,
-    ) {
-        this.items = new Array<I{pascalCase}>();
-        this.currentPage = 0;
-    }
+    ) {}
 
     ngOnInit(): void {
-        this.literalsSubscription$ = this.thfI18nService
-            .getLiterals({ context: '{camelCase}' })
-            .subscribe(literals => {
-                this.literals = literals;
-                this.setupComponents();
-            });
+        Observable.forkJoin(
+            this.thfI18nService.getLiterals(),
+            this.thfI18nService.getLiterals({ context: '{camelCase}' })
+        ).subscribe(literals => {
+            literals.map(item => Object.assign(this.literals, item));
+            this.setupComponents();
+        });
     }
 
-    searchByName(filter = [{ property: 'name', value: this.searchValue }]): void {
+    searchByName(filter = [{ property: 'name', value: this.quickSearchValue }]): void {
         this.disclaimers = [...filter];
         this.disclaimerGroup.disclaimers = [...this.disclaimers];
     }
@@ -93,7 +92,7 @@ export class {pascalCase}ListComponent implements OnInit, OnDestroy {
         this.itemsSubscription$ = this.service
             .query(disclaimer, this.currentPage, this.pageSize)
             .subscribe((response: TotvsResponse<I{pascalCase}>) => {
-                this.items = this.items.concat(response.items);
+                this.items = [...this.items, ...response.items];
                 this.hasNext = response.hasNext;
                 this.isLoading = false;
             });
@@ -101,15 +100,26 @@ export class {pascalCase}ListComponent implements OnInit, OnDestroy {
 
     private delete(): void {
 
+        let count = 0;
         const selected = this.items.filter((item: any) => item.$selected);
 
         if (selected.length > 0) {
-            selected.map(((item: I{pascalCase}) => {
+            selected.map((item: I{pascalCase}) => {
                 this.service.delete(item.id).subscribe(response => {
-                    this.search();
+                    this.thfNotification.success(
+                        this.thfI18nPipe.transform(
+                            this.literals['excluded{pascalCase}Message'], [item.name]
+                        )
+                    );
+                    if (++count === selected.length) {
+                        this.search();
+                    }
+                }, (err:any) => {
+                    if (++count === selected.length) {
+                        this.search();
+                    }
                 });
-            }));
-            this.thfNotification.success(this.literals['excluded{pascalCase}Message']);
+            });
         }
     }
 
@@ -118,7 +128,7 @@ export class {pascalCase}ListComponent implements OnInit, OnDestroy {
     }
 
     private resetFilters(): void {
-        this.searchValue = '';
+        this.quickSearchValue = '';
     }
 
     private onChangeDisclaimer(disclaimers): void {
@@ -175,13 +185,12 @@ export class {pascalCase}ListComponent implements OnInit, OnDestroy {
 
         this.filterSettings = {
             action: 'searchByName',
-            ngModel: 'searchValue',
+            ngModel: 'quickSearchValue',
             placeholder: this.literals['search']
         };
     }
 
     ngOnDestroy(): void {
         this.itemsSubscription$.unsubscribe();
-        this.literalsSubscription$.unsubscribe();
     }
 }

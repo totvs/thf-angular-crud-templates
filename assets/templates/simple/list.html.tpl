@@ -8,12 +8,12 @@
     <thf-table
         t-checkbox="true"
         t-hide-select-all="false"
-        t-show-more-disabled="!hasNext"
-        (t-show-more)="search(true)"
         [t-loading]="isLoading"
         [t-actions]="tableActions"
         [t-columns]="columns"
         [t-items]="items"
+        [t-show-more-disabled]="!hasNext"
+        (t-show-more)="search(true)"
     >
     </thf-table>
 </thf-page-list>
@@ -27,6 +27,6 @@
     [t-secondary-action]="cancelDeleteAction"
 >
     <div class="thf-font-text-large thf-text-left">
-        {{ literals?.modalDeleteMessage | thfI18n:[] }}
+        {{ literals?.modalDeleteMessage }}
     </div>
 </thf-modal>

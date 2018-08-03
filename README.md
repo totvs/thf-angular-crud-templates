@@ -1,19 +1,19 @@
-# [TOTVS HTML Framework 2](https://thf.totvs.com.br/) Angular CRUD Template for VS CODE
+# [TOTVS HTML Framework](https://thf.totvs.com.br/) Angular CRUD Template for VS CODE
 
-This extension for Visual Studio Code adds the default CRUD template for TOTVS HTML Framework 2.
+This extension for Visual Studio Code adds the default CRUD template for TOTVS HTML Framework.
 
-![Use Extension](https://github.com/totvs/thf-angular-crud-templates/raw/master/assets/images/totvs-thf2-crud.gif)
+![Use Extension](https://github.com/totvs/thf-angular-crud-templates/raw/master/assets/images/totvs-thf-crud.gif)
 
-THF2 Suported version: `1.8.0`
+THF Suported version: `1.8.1`
 
 ## Usage
 
-1. Follow the [THF2 Guide - Getting started](https://thf.totvs.com.br/guides/getting-started) to start a project;
-2. On the `explorer/context` access the `THF2: CRUD Simple` option; or use the `command palette` to access the command `THF2: CRUD Simple`;
+1. Follow the [THF Guide - Getting started](https://thf.totvs.com.br/guides/getting-started) to start a project;
+2. On the `explorer/context` access the `THF: CRUD Simple` option; or use the `command palette` to access the command `THF: CRUD Simple`;
 3. Inform the CRUD name, in `camelCase`, for the component;
 * The plugin will generate a new module with the CRUD self-contained.
 4. Register the module to the application module `src/app/app.module.ts`;
-5. Register the i18n files to the [THF2 i18n Module](https://thf.totvs.com.br/documentation/thf-i18n):
+5. Register the i18n files to the [THF i18n Module](https://thf.totvs.com.br/documentation/thf-i18n):
 
     ![i18n sample](https://github.com/totvs/thf-angular-crud-templates/raw/master/assets/images/i18n.png)
     

@@ -1,8 +1,8 @@
 {
     "name": "thf-angular-crud-templates",
     "publisher": "scartecjv",
-    "displayName": "THF 2 Angular CRUD Template for VS CODE",
-    "description": "TOTVS HTML Framework 2 Angular CRUD template for VS CODE by TOTVS.",
+    "displayName": "THF Angular CRUD Template for VS CODE",
+    "description": "TOTVS HTML Framework Angular CRUD template for VS CODE by TOTVS.",
     "icon": "assets/images/thf.png",
     "galleryBanner": {
         "color": "#333",
@@ -17,8 +17,8 @@
     "keywords": [
         "ANGULAR",
         "TOTVS",
-        "THF2",
-        "THF2 CRUD COMPONENT",
+        "THF ANGULAR",
+        "THF ANGULAR CRUD COMPONENT",
         "GENERATE CRUD COMPONENT"
     ],
     "version": "1.0.0",
@@ -29,21 +29,21 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.thf2CRUDSimple"
+        "onCommand:extension.thfCRUDSimple"
     ],
     "main": "./out/src/extension",
     "contributes": {
         "commands": [
             {
-                "command": "extension.thf2CRUDSimple",
-                "title": "THF 2: CRUD Simple"
+                "command": "extension.thfCRUDSimple",
+                "title": "THF: CRUD Simple"
             }
         ],
         "menus": {
             "explorer/context": [
                 {
-                    "command": "extension.thf2CRUDSimple",
-                    "group": "THF 2@1"
+                    "command": "extension.thfCRUDSimple",
+                    "group": "THF@1"
                 }
             ]
         }

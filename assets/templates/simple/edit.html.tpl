@@ -39,7 +39,7 @@
     [t-secondary-action]="returnAction"
 >
     <div class="thf-font-text-large thf-text-left">
-        {{ literals?.modalDeleteMessage | thfI18n:[] }}
+        {{ literals?.modalDeleteMessage }}
     </div>
 </thf-modal>
 
@@ -52,6 +52,6 @@
     [t-secondary-action]="returnAction"
 >
     <div class="thf-font-text-large thf-text-left">
-        {{ literals?.modalCancelEditMessage | thfI18n:[] }}
+        {{ literals?.modalCancelEditMessage }}
     </div>
 </thf-modal>
