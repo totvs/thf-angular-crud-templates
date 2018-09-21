@@ -4,7 +4,7 @@ This extension for Visual Studio Code adds the default CRUD template for TOTVS H
 
 ![Use Extension](https://github.com/totvs/thf-angular-crud-templates/raw/master/assets/images/totvs-thf-crud.gif)
 
-THF Suported version: `1.8.1`
+THF Suported version: `2.0.0`
 
 ## Usage
 
@@ -53,6 +53,9 @@ The simple CRUD component structure will be like, starting at `./src/app/`:
 ```
 
 ## Release Notes
+
+1.1.0
+* Compatibility with THF 2.0.0 and Angular 6.
 
 1.0.0
 * Initial release with the CRUD simple template.

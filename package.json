@@ -21,7 +21,7 @@
         "THF ANGULAR CRUD COMPONENT",
         "GENERATE CRUD COMPONENT"
     ],
-    "version": "1.0.0",
+    "version": "1.1.0",
     "engines": {
         "vscode": "^1.8.0"
     },

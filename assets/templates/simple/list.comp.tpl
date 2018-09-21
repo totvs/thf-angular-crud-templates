@@ -11,8 +11,7 @@ import { ThfTableColumn } from '@totvs/thf-ui/components/thf-table';
 import { ThfI18nService, ThfI18nPipe } from '@totvs/thf-ui/services/thf-i18n';
 import { ThfNotificationService } from '@totvs/thf-ui/services/thf-notification/thf-notification.service';
 
-import { Observable } from 'rxjs';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
 
 import { TotvsResponse } from '../shared/interfaces/totvs-response.interface';
 
